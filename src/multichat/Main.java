@@ -6,12 +6,10 @@ import gnu.getopt.LongOpt;
 import java.io.IOException;
 import java.net.InetAddress;
 
-import blocking.Server;
-
 
 public class Main
 {
-	public static void main(String[] args) throws IOException
+	public static void main(String[] args) throws IOException, InterruptedException
 	{
 		String ip = "0.0.0.0";
 		int port = 65535;
@@ -70,26 +68,34 @@ public class Main
 		
 		if(n)
 		{
+			Thread thread = null;
 			if(s)
 			{
-				
+				System.out.println("lancement serveur non bloquant");
+				thread = new Thread(new nonblocking.Server(ip, port));
+				thread.start();
 			}
 			
 			if(c)
 			{
-				
+				System.out.println("lancement client non bloquant");
+				nonblocking.Client client = new nonblocking.Client(ip, port);
+				client.start();
 			}
+			thread.join();
 		}
 		else
 		{
 			if(s)
 			{
-				blocking.Server server = new Server(InetAddress.getLocalHost(), 80);
+				System.out.println("lancement serveur bloquant");
+				blocking.Server server = new blocking.Server(InetAddress.getLocalHost(), 80);
 				server.start();
 			}
 			
 			if(c)
 			{
+				System.out.println("lancement client bloquant");
 				// implémenter client
 			}
 		}
