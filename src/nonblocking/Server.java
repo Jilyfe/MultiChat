@@ -48,6 +48,7 @@ public class Server implements Runnable
 				selector.select();
 				Set<SelectionKey> keys = selector.selectedKeys();
 				Iterator<SelectionKey> keyIterator = keys.iterator();
+				// on parcourt les clients
 				while(keyIterator.hasNext())
 				{
 					SelectionKey mykey = keyIterator.next();
@@ -65,12 +66,9 @@ public class Server implements Runnable
 						
 						SocketChannel client = ((SocketChannel) mykey.channel());
 						client.read(bbuf);
-						Charset charset = Charset.defaultCharset();
 						bbuf.flip();
-						CharBuffer cbuf = charset.decode(bbuf);
 					    
-					    ByteBuffer buf;
-					    buf = bbuf.compact();
+					    bbuf.compact();
 					    
 				    	client.register(selector, SelectionKey.OP_READ);
 						//write(cbuf);
@@ -86,8 +84,7 @@ public class Server implements Runnable
 						bbuf.flip();
 						CharBuffer cbuf = charset.decode(bbuf);
 
-					    ByteBuffer buf;
-					    buf = bbuf.compact();
+					    bbuf.compact();
 					    
 						System.out.println(cbuf.toString());
 					    

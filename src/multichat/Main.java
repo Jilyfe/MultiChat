@@ -6,6 +6,8 @@ import gnu.getopt.LongOpt;
 import java.io.IOException;
 import java.net.InetAddress;
 
+import view.ChatView;
+
 
 public class Main
 {
@@ -15,6 +17,7 @@ public class Main
 		int port = 65535;
 		boolean d = false, h = false, m = false, n = false, s = false, c = false;
 		
+		// options
 		LongOpt[] longopts  = new LongOpt[8];
 		StringBuffer sb = new StringBuffer();
 		longopts[0] = new LongOpt("address", LongOpt.REQUIRED_ARGUMENT, sb, 'a');
@@ -60,12 +63,31 @@ public class Main
 			}
 		}
 		
+		// aide
 		if(h)
+		{
+			System.out.println("-a , -- address = ADDR\tset the IP address");
+			System.out.println("-d, -debug\tdisplay error messages");
+			System.out.println("-h, --help\tdisplay this help and quit");
+			System.out.println("-m, --multicast\tstart the client en multicast mode");
+			System.out.println("-n, --nio\tconfigure the server in NIO mode");
+			System.out.println("-p, --port=PORT\tset the port");
+			System.out.println("-s, --server\tstart the server");
+		}
+		
+		// debug
+		if(d)
+		{
+			System.out.println("mode debug");
+		}
+		
+		if(h || d)
 		{
 			System.out.println("appuyez sur entrée pour continuer");
 			while(System.in.read() != '\n') ;
 		}
 		
+		// NIO
 		if(n)
 		{
 			Thread thread = null;
@@ -84,6 +106,15 @@ public class Main
 			}
 			thread.join();
 		}
+		// multicast
+		else if(m)
+		{
+			if(s)
+			{
+				new ChatView(ip, port);
+			}
+		}
+		// block
 		else
 		{
 			if(s)

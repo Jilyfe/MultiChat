@@ -38,6 +38,7 @@ public class ClientServer implements Runnable
 				}
 				while(bufferChar != '\n');
 				
+				// on envoie la commande /nick
 				if(bufferString.startsWith("/nick "))
 				{
 					System.out.println(bufferString);
@@ -49,6 +50,7 @@ public class ClientServer implements Runnable
 				}
 				else
 				{
+					// on quitte
 					if(bufferString.equals("exit\n"))
 					{
 						if(name.equals(""))
@@ -61,6 +63,7 @@ public class ClientServer implements Runnable
 						}
 						bufferString = "";
 					}
+					// on envoie un message
 					else
 					{
 						if(!name.equals(""))

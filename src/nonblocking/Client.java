@@ -46,6 +46,7 @@ public class Client
 		while(!msg.equals("exit\n"));
 	}
 	
+	// envoie d'un message
 	public void send(String msg) throws IOException
 	{
     	ByteBuffer buffer = null;

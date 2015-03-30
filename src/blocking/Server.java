@@ -34,6 +34,7 @@ public class Server
 		System.out.println("port: " + port);
 		System.out.println("server address: " + server.getLocalSocketAddress());
 		
+		// boucle d'acceptation de client
 		while(true)
 		{
 			System.out.println("attente de client");
@@ -42,6 +43,7 @@ public class Server
 			
 			connections.add(client.getOutputStream());
 			
+			// création de thread géreant le client
 			new Thread(new ClientServer(this, client)).start();
 		}
 		//server.close();
@@ -52,6 +54,7 @@ public class Server
 		connections.remove(client);
 	}
 	
+	// envoie un message à un client
 	public synchronized void write(OutputStream client, String clientMessage, String othersMessage) throws IOException
 	{
 		int i;
